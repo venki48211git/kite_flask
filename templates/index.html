@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Equity Market Depth Data</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Add Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <style>
+        table, th, td {
+            border: 1px solid rgb(0, 0, 0);
+            border-collapse: collapse;
+            text-align: center;
+        }
+
+        th {
+            background-color: #337ab7;
+            color: white;
+            font-size: 16px;
+        }
+
+        table td {
+            padding: 5px;
+        }
+
+        .ohlc-green {
+            color: green;
+        }
+
+        /* Added styles for box */
+        .box {
+            border: 1px solid black;
+            padding: 20px;
+            float: right;
+            display: inline-block;
+        }
+
+        .label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .input {
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        /* Add hover effect to table rows */
+        tbody tr:hover {
+            background-color: lightyellow !important;
+            font-weight: bold;
+        }
+
+        /* Media query for small screens */
+        @media (max-width: 767px) {
+            /* Adjust table layout for small screens */
+            table, th, td {
+                font-size: 12px;
+                padding: 3px;
+            }
+        }
+
+        /* Custom CSS for button color */
+        .btn-black {
+            background-color: black;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center">Equity Market Depth Data</h1>
+        <!-- Add a button for the FNO page -->
+        <div class="text-right">
+            <a href="{{ url_for('fno') }}" class="btn btn-primary" target="_blank">FNO Stock Data</a>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>Symbol</th>
+                        <th>% Change</th>
+                        <th>LTP</th>
+                        <th>UC</th>
+                        <th>Qty</th>
+                        <th>Volume</th>
+                        <th>OHLC</th>
+                        <th>Open</th>
+                        <th>High</th>
+                        <th>Low</th>
+                        <th>Close</th>
+                        <th>Stock P/E</th>
+                        <th>No. Eq. Shares</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in data %}
+                    <tr>
+                        <td>{{ row['Symbol'] }}</td>
+                        <td{% if row['Percentage']|replace('%','')|float > 6 %} class="ohlc-green"{% endif %}>
+                            {{ row['Percentage'] }}
+                        </td> 
+                        <td>{{ row['LTP'] }}</td>
+                        <td>{{ row['UC'] }}</td>               
+                        <td>{{ row['Qty'] }}</td>
+                        <td>{{ row['Volume'] }}</td>
+                        <td class="ohlc-green">{{ row['OHLC'] }} </td>
+                        <td> {{ row['Open']}} </td>
+                        <td> {{ row['High']}} </td>
+                        <td> {{ row['Low']}} </td>
+                        <td> {{ row['Close']}} </td>
+                        <td>{{ row['Stock P/E'] }}</td>
+                        <td>{{ row['No. Eq. Shares'] }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <!-- Add Bootstrap JS -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+        <script>
+            setInterval(function() {
+                location.reload();
+            }, 8000);
+        </script>
+    </div>
+</body>
+</html>
