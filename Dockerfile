@@ -1,8 +1,9 @@
-FROM fedora:latest
+# Base image is amazon Linux
+FROM amazonlinux:latest
 
 ENV TZ="Asia/Calcutta"
 
-RUN dnf install -y git pip
+RUN yum install -y git pip
 
 WORKDIR /usr/src/app
 
